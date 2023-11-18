@@ -1,13 +1,26 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}
-Home
-{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
-  <div class="row">
-    <img style= "width: 100%" src="https://i.ibb.co/2sd9hdw/image.jpg" alt="">
-  </div>
+<div class="album py-5 bg-light">
+        <div class="container">
+
+          <div class="row">
+              {%  for product in products %}
+              <div class="col-md-4">
+              <div class="card mb-4 box-shadow">
+                <img class="img-fluid" alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" src="{{ product.image.url }}" data-holder-rendered="true">
+                <div class="card-body">
+                    <h3>{{ product.title }}</h3>
+                    <p class="card-text">{{ product.description }}</p>
+
+                </div>
+              </div>
+            </div>
+              {%  endfor %}
+
+      </div>
 </div>
 {% endblock %}
