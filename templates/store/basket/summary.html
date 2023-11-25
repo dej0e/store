@@ -1,6 +1,6 @@
 {% extends "../base.html" %}
 {% load static %}
-{% block title %}Basket Summary{% endblock %}
+{% block title %}Shopping Cart - eShop{% endblock %}
 {% block content %}
 
     <main class="pt-5">
@@ -15,19 +15,12 @@
                         </div>
                         <div class="col-md-9 col-lg-10 ps-md-3 ps-lg-10">
                             <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-reset">
-                                <h1 class="h5 pt-2">{{ product.title }}</h1>
+                                <h1 class="h5 pt-2 mb-3">{{ product.title }}</h1>
                             </a>
                             <div class="border">
-                                <div class="col border-bottom">
-                                    <div class="row p-3">
-                                        <div class="col-6">Hardback Book</div>
-                                        <div class="col-6 text-end"><span
-                                                class="h6 fw-bold">£{{ item.total_price }}</span></div>
-                                    </div>
-                                </div>
                                 <div class="col">
                                     <div class="row p-3">
-                                        <div class="col-2">
+                                        <div class="col-4">
                                             <div class="form-floating">
                                                 <select id="select{{ product.id }}" class="form-select">
                                                     <option selected>
@@ -41,7 +34,12 @@
                                                 <label for="select">Quantity</label>
                                             </div>
                                         </div>
-                                        <div class="col-10 text-end">
+                                        <div class="col-8 text-end"><span
+                                                class="h6 fw-bold"
+                                                id="total-price{{ product.id }}">${{ item.total_price }}</span></div>
+                                    </div>
+                                    <div class="row p-3">
+                                        <div class="col-5">
                                             <button type="button" id="update-button" data-index="{{ product.id }}"
                                                     class="btn btn-outline-primary btn-md update-button">
                                                 Update
@@ -58,9 +56,9 @@
                     </div>
                 {% endwith %}
             {% endfor %}
-        <div class="h6 fw-bold text-end">Sub Total: $
-            <div id="subtotal" class="d-inline-flex">{{ basket.get_total_price }}</div>
-        </div>
+            <div class="h6 fw-bold text-end">Sub Total: $
+                <div id="subtotal" class="d-inline-flex">{{ basket.get_total_price }}</div>
+            </div>
         </div>
     </main>
 
@@ -107,8 +105,8 @@
                         empty_cart_container.hide()
                         shopping_cart_container.show()
                     }
-                    document.getElementById("basket-qty").innerHTML = json.qty
-                    document.getElementById("subtotal").innerHTML = json.subtotal
+                    $("#basket-qty").html(json.qty)
+                    $("#subtotal").html(json.subtotal)
 
                 },
                 error: function (xhr, errmsg, err) {
@@ -137,8 +135,9 @@
                         empty_cart_container.hide()
                         shopping_cart_container.show()
                     }
-                    document.getElementById("basket-qty").innerHTML = json.qty
-                    document.getElementById("subtotal").innerHTML = json.subtotal
+                    $("#total-price" + prodid).html("$" + json.updatedItemTotal)
+                    $("#basket-qty").html(json.qty)
+                    $("#subtotal").html(json.subtotal)
                 },
                 error: function (xhr, errmsg, err) {
                 }
