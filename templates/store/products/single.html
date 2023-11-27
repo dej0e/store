@@ -34,7 +34,7 @@
                             <div class="row px-3 pb-3">
                                 <div class="col-6">
                                     <button type="button" id="add-button" value="{{ product.id }}"
-                                            class="btn btn-primary btn-md">Add to basket
+                                            class="btn btn-primary btn-md">Add to cart
                                     </button>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
             e.preventDefault();
             $.ajax({
                 type: 'POST',
-                url: '{% url "basket:basket_add" %}',
+                url: '{% url "cart:cart_add" %}',
                 data: {
                     productid: $('#add-button').val(),
                     productqty: $('#select option:selected').text(),
@@ -59,7 +59,7 @@
                     action: 'post'
                 },
                 success: function (json) {
-                    document.getElementById("basket-qty").innerHTML = json.qty
+                    document.getElementById("cart-qty").innerHTML = json.qty
                 },
                 error: function (xhr, errmsg, err) {
                 }

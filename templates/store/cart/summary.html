@@ -5,8 +5,8 @@
 
     <main class="pt-5">
         <div id="shopping-cart-container" class="container">
-            <h1 class="h5">Shopping basket</h1>
-            {% for item in basket %}
+            <h1 class="h5">Shopping cart</h1>
+            {% for item in cart %}
                 {% with product=item.product %}
                     <div data-index="{{ product.id }}" class="row mb-4 border product-item">
                         <div class="col-md-3 col-lg-2 order-md-first bg-light">
@@ -57,7 +57,7 @@
                 {% endwith %}
             {% endfor %}
             <div class="h6 fw-bold text-end">Sub Total: $
-                <div id="subtotal" class="d-inline-flex">{{ basket.get_total_price }}</div>
+                <div id="subtotal" class="d-inline-flex">{{ cart.get_total_price }}</div>
             </div>
         </div>
     </main>
@@ -77,7 +77,7 @@
     <script>
         let shopping_cart_container = $("#shopping-cart-container")
         let empty_cart_container = $("#empty-shopping-cart-container")
-        {% if basket|length == 0 %}
+        {% if cart|length == 0 %}
             shopping_cart_container.hide()
             empty_cart_container.show()
         {% else %}
@@ -90,7 +90,7 @@
             let prodid = $(this).data('index');
             $.ajax({
                 type: 'POST',
-                url: '{% url "basket:basket_delete" %}',
+                url: '{% url "cart:cart_delete" %}',
                 data: {
                     productid: $(this).data('index'),
                     csrfmiddlewaretoken: "{{csrf_token}}",
@@ -105,7 +105,7 @@
                         empty_cart_container.hide()
                         shopping_cart_container.show()
                     }
-                    $("#basket-qty").html(json.qty)
+                    $("#cart-qty").html(json.qty)
                     $("#subtotal").html(json.subtotal)
 
                 },
@@ -120,7 +120,7 @@
             let prodid = $(this).data('index');
             $.ajax({
                 type: 'POST',
-                url: '{% url "basket:basket_update" %}',
+                url: '{% url "cart:cart_update" %}',
                 data: {
                     productid: $(this).data('index'),
                     productqty: $('#select' + prodid + ' option:selected').text(),
@@ -136,7 +136,7 @@
                         shopping_cart_container.show()
                     }
                     $("#total-price" + prodid).html("$" + json.updatedItemTotal)
-                    $("#basket-qty").html(json.qty)
+                    $("#cart-qty").html(json.qty)
                     $("#subtotal").html(json.subtotal)
                 },
                 error: function (xhr, errmsg, err) {
